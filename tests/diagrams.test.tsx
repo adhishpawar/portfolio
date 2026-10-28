@@ -34,6 +34,11 @@ vi.mock("gsap/ScrollTrigger", () => {
   return { ScrollTrigger: { name: "ScrollTrigger" } };
 });
 
+const engage = async () => {
+  window.dispatchEvent(new Event("scroll"));
+  await vi.advanceTimersByTimeAsync(0);
+};
+
 describe("PipelineDiagram", () => {
   it("renders one box per node, in order, with its label and detail", () => {
     const { container } = render(<PipelineDiagram nodes={NODES} title="FifthSense pipeline" />);
@@ -99,7 +104,7 @@ describe("useFlagshipPin", () => {
     mockMatchMedia(true, true);
     const el = target();
     renderHook(() => useFlagshipPin(() => el));
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(loads.gsap).toBe(0);
   });
 
@@ -107,7 +112,7 @@ describe("useFlagshipPin", () => {
     mockMatchMedia(false, false);
     const el = target();
     renderHook(() => useFlagshipPin(() => el));
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(loads.gsap).toBe(0);
   });
 
@@ -115,7 +120,7 @@ describe("useFlagshipPin", () => {
     mockMatchMedia(false, true);
     const el = target();
     renderHook(() => useFlagshipPin(() => el));
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(gsap.registerPlugin).toHaveBeenCalledWith({ name: "ScrollTrigger" });
     const config = gsap.timeline.mock.calls[0][0] as { scrollTrigger: { pin: unknown } };
     expect(config.scrollTrigger.pin).toBe(true);
@@ -126,7 +131,7 @@ describe("useFlagshipPin", () => {
     mockMatchMedia(false, true);
     const el = target();
     const view = renderHook(() => useFlagshipPin(() => el));
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     view.unmount();
     expect(timeline.scrollTrigger.kill).toHaveBeenCalled();
     expect(timeline.kill).toHaveBeenCalled();
@@ -135,7 +140,7 @@ describe("useFlagshipPin", () => {
   it("does nothing when the target element does not exist", async () => {
     mockMatchMedia(false, true);
     renderHook(() => useFlagshipPin(() => null));
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(loads.gsap).toBe(0);
   });
 });

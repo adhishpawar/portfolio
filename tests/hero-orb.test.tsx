@@ -3,6 +3,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FifthSenseGlow } from "@/components/webgl/FifthSenseGlow";
 import { HeroOrb } from "@/components/webgl/HeroOrb";
+import { StaticOrb } from "@/components/webgl/StaticOrb";
+import type { ReactElement } from "react";
 import type { WebGLEnv } from "@/lib/webgl";
 
 const { loads, dispose, mountScene } = vi.hoisted(() => {
@@ -47,6 +49,21 @@ describe("HeroOrb", () => {
     expect(html).toContain("<img");
     expect(html).toContain("halftone-orb");
     expect(html).not.toContain("<canvas");
+  });
+
+  it("fetches the static orb at high priority and at quality 40, so it paints fast on slow phones", () => {
+    expect(renderToStaticMarkup(<HeroOrb />)).toContain('fetchPriority="high"');
+    // Quality is checked on the element: next/image only honours it when the
+    // config allows it, and the unit test environment has no config.
+    const orb = StaticOrb() as ReactElement<{ quality: number; fetchPriority: string }>;
+    expect(orb.props.quality).toBe(40);
+    expect(orb.props.fetchPriority).toBe("high");
+  });
+
+  it("allows quality 40 in the Next image config", () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const config = require("../next.config.js") as { images: { qualities: number[] } };
+    expect(config.images.qualities).toContain(40);
   });
 
   it("never loads the scene module when WebGL is not allowed", async () => {

@@ -13,6 +13,11 @@ const { lenisInstance, LenisCtor } = vi.hoisted(() => {
 });
 vi.mock("lenis", () => ({ default: LenisCtor }));
 
+const engage = async () => {
+  window.dispatchEvent(new Event("scroll"));
+  await vi.advanceTimersByTimeAsync(0);
+};
+
 beforeEach(() => {
   vi.useFakeTimers();
   LenisCtor.mockClear();
@@ -80,7 +85,7 @@ describe("LenisProvider", () => {
         <p>content</p>
       </LenisProvider>,
     );
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(LenisCtor).not.toHaveBeenCalled();
   });
 
@@ -93,11 +98,25 @@ describe("LenisProvider", () => {
       </LenisProvider>,
     );
     expect(LenisCtor).not.toHaveBeenCalled();
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(LenisCtor).toHaveBeenCalledTimes(1);
     expect(LenisCtor).toHaveBeenCalledWith(expect.objectContaining({ anchors: true }));
     view.unmount();
     expect(lenisInstance.destroy).toHaveBeenCalledTimes(1);
+  });
+
+  it("waits for the visitor: nothing loads on first paint, and an idle visitor still gets Lenis after the fallback", async () => {
+    mockMatchMedia(false);
+    const { LenisProvider } = await import("@/components/motion/LenisProvider");
+    render(
+      <LenisProvider>
+        <p>content</p>
+      </LenisProvider>,
+    );
+    await vi.advanceTimersByTimeAsync(7000);
+    expect(LenisCtor).not.toHaveBeenCalled();
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(LenisCtor).toHaveBeenCalledTimes(1);
   });
 
   it("does not start Lenis if unmounted before the browser is idle", async () => {
@@ -109,7 +128,7 @@ describe("LenisProvider", () => {
       </LenisProvider>,
     );
     view.unmount();
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(LenisCtor).not.toHaveBeenCalled();
   });
 

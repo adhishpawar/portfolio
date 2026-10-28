@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { whenIdle } from "@/lib/idle";
+import { whenEngaged } from "@/lib/idle";
 import { useReducedMotion } from "./useReducedMotion";
 
 interface PinTimeline {
@@ -26,7 +26,7 @@ export function useFlagshipPin(getTarget: () => HTMLElement | null): void {
     let timeline: PinTimeline | undefined;
     let cancelled = false;
 
-    const cancelIdle = whenIdle(async () => {
+    const cancelEngaged = whenEngaged(async () => {
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
         import("gsap/ScrollTrigger"),
@@ -47,7 +47,7 @@ export function useFlagshipPin(getTarget: () => HTMLElement | null): void {
 
     return () => {
       cancelled = true;
-      cancelIdle();
+      cancelEngaged();
       timeline?.scrollTrigger?.kill();
       timeline?.kill();
     };

@@ -15,9 +15,12 @@ export const fontSerif = Instrument_Serif({
   variable: "--font-serif",
 });
 
+// Only small labels use the mono face, so it is not preloaded: the hero fonts get
+// the bandwidth first, and the mono face loads when the labels need it.
 export const fontMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
+  preload: false,
   variable: "--font-mono",
 });

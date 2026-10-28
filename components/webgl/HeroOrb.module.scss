@@ -1,9 +1,17 @@
+// Small on phones: the orb is decoration, and a full-width image there would be
+// the largest paint and compete with the headline for a slow connection.
 .orb {
   position: relative;
   width: 100%;
-  max-width: 40rem;
+  max-width: 14rem;
   aspect-ratio: 1;
   margin-inline: auto;
+}
+
+@media (min-width: 60rem) {
+  .orb {
+    max-width: 40rem;
+  }
 }
 
 .static {

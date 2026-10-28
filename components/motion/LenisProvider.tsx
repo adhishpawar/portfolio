@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { whenIdle } from "@/lib/idle";
+import { whenEngaged } from "@/lib/idle";
 import { useReducedMotion } from "./useReducedMotion";
 
-// Smooth scrolling is an enhancement: it loads after first paint, never for
+// Smooth scrolling is an enhancement: it loads on the first interaction, never for
 // reduced-motion visitors, and leaves keyboard scrolling and anchors to the browser.
 export function LenisProvider({ children }: { children: ReactNode }) {
   const reduced = useReducedMotion();
@@ -14,7 +14,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     let lenis: { destroy: () => void } | undefined;
     let cancelled = false;
 
-    const cancelIdle = whenIdle(async () => {
+    const cancelEngaged = whenEngaged(async () => {
       const { default: Lenis } = await import("lenis");
       if (cancelled) return;
       lenis = new Lenis({ anchors: true, autoRaf: true });
@@ -22,7 +22,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
 
     return () => {
       cancelled = true;
-      cancelIdle();
+      cancelEngaged();
       lenis?.destroy();
     };
   }, [reduced]);

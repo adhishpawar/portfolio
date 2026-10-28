@@ -37,6 +37,21 @@
 // The collapse only applies after hydration, so without JavaScript the links
 // are always visible.
 @media (max-width: 40rem) {
+  // The header is the same height before and after hydration, so enabling the
+  // Menu toggle can never push the page down (layout shift). Without JavaScript
+  // the links stay on one row and scroll sideways if they do not fit.
+  .nav {
+    display: flex;
+    align-items: center;
+    min-height: 2.5rem;
+  }
+
+  .nav:not([data-enhanced]) .list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
   .nav[data-enhanced] .toggle {
     display: inline-block;
   }

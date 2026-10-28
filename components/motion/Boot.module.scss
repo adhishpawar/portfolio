@@ -1,14 +1,18 @@
 @use "../../styles/type" as t;
 
-.overlay {
+// A terminal-style readout in the corner of the page. It never covers the
+// content, so the page is visually complete from the first paint.
+.hud {
   position: fixed;
-  inset: 0;
+  left: max(var(--space-4), env(safe-area-inset-left, 0px));
+  bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px));
   z-index: 100;
   display: grid;
-  place-content: center;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  background: var(--void);
+  gap: var(--space-3);
+  max-width: calc(100vw - 2 * var(--space-4));
+  padding: var(--space-3) var(--space-4);
+  background: rgba(16, 16, 16, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   animation: leave 400ms ease calc(var(--boot-ms) - 400ms) forwards;
 }
 
@@ -20,7 +24,7 @@
 }
 
 .line {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-1);
   opacity: 0;
   animation: appear 300ms ease forwards;
 }
@@ -28,7 +32,7 @@
 .skip {
   @include t.mono-label;
   justify-self: start;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-1) var(--space-3);
   background: transparent;
   color: var(--accent-text);
   border: 1px solid currentColor;

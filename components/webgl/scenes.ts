@@ -52,11 +52,18 @@ export function mountScene(kind: SceneKind, canvas: HTMLCanvasElement): SceneHan
     renderer.render(scene, camera);
   };
 
+  // The animation is a slow drift, so 30 frames a second is plenty and keeps
+  // software-rendered machines responsive.
+  const FRAME_MS = 1000 / 30;
   let frame = 0;
+  let lastDrawn = 0;
   let visible = true;
   const tick = (time: number) => {
-    uniforms.uTime.value = time / 1000;
-    renderer.render(scene, camera);
+    if (time - lastDrawn >= FRAME_MS) {
+      lastDrawn = time;
+      uniforms.uTime.value = time / 1000;
+      renderer.render(scene, camera);
+    }
     frame = requestAnimationFrame(tick);
   };
   const update = () => {

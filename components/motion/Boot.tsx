@@ -6,7 +6,7 @@ import styles from "./Boot.module.scss";
 import { useHydrated } from "./useHydrated";
 import { useReducedMotion } from "./useReducedMotion";
 
-// A short intro overlay. Content and LCP never wait for it, and it removes
+// A short boot readout in the corner. Content and LCP never wait for it, and it removes
 // itself on any key press.
 export function Boot({ lines }: { lines: string[] }) {
   const reduced = useReducedMotion();
@@ -33,7 +33,7 @@ export function Boot({ lines }: { lines: string[] }) {
   if (!playing) return null;
 
   return (
-    <div data-boot className={styles.overlay} style={{ "--boot-ms": `${BOOT_MS}ms` } as CSSProperties}>
+    <div data-boot className={styles.hud} style={{ "--boot-ms": `${BOOT_MS}ms` } as CSSProperties}>
       <div aria-hidden="true" className={styles.lines}>
         {lines.map((line, i) => (
           <p key={i} className={styles.line} style={{ animationDelay: `${i * 0.4}s` }}>

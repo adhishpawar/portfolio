@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { whenIdle } from "@/lib/idle";
+import { whenEngaged } from "@/lib/idle";
 import { computeOrbitSegments } from "@/lib/orbit";
 import styles from "./OrbitLine.module.scss";
 import { useReducedMotion } from "./useReducedMotion";
+
+// GSAP rounds CSS pixel values, so the path is measured in units of 1000: a
+// path length of 1 would collapse the animation to a hard 1px -> 0px switch.
+const LENGTH = 1000;
 
 interface OrbitLineProps {
   chapterIds: string[];
@@ -17,7 +21,7 @@ interface DrawTimeline {
 }
 
 // One decorative line that draws itself as the page scrolls. GSAP and
-// ScrollTrigger load after first paint; reduced-motion visitors get the line
+// ScrollTrigger load on the first interaction; reduced-motion visitors get the line
 // fully drawn and GSAP is never fetched.
 export function OrbitLine({ chapterIds, weights }: OrbitLineProps) {
   const reduced = useReducedMotion();
@@ -32,7 +36,7 @@ export function OrbitLine({ chapterIds, weights }: OrbitLineProps) {
     let timeline: DrawTimeline | undefined;
     let cancelled = false;
 
-    const cancelIdle = whenIdle(async () => {
+    const cancelEngaged = whenEngaged(async () => {
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
         import("gsap/ScrollTrigger"),
@@ -51,7 +55,7 @@ export function OrbitLine({ chapterIds, weights }: OrbitLineProps) {
       for (const segment of computeOrbitSegments(ids, shares)) {
         tl.addLabel(segment.id, segment.start).to(
           path,
-          { strokeDashoffset: 1 - segment.end, duration: segment.end - segment.start, ease: "none" },
+          { strokeDashoffset: (1 - segment.end) * LENGTH, duration: segment.end - segment.start, ease: "none" },
           segment.start,
         );
       }
@@ -60,7 +64,7 @@ export function OrbitLine({ chapterIds, weights }: OrbitLineProps) {
 
     return () => {
       cancelled = true;
-      cancelIdle();
+      cancelEngaged();
       timeline?.scrollTrigger?.kill();
       timeline?.kill();
     };
@@ -77,9 +81,9 @@ export function OrbitLine({ chapterIds, weights }: OrbitLineProps) {
       <path
         ref={pathRef}
         d="M 80 0 C 20 200, 120 350, 60 520 S 20 800, 70 1000"
-        pathLength={1}
-        strokeDasharray={1}
-        strokeDashoffset={reduced ? 0 : 1}
+        pathLength={LENGTH}
+        strokeDasharray={LENGTH}
+        strokeDashoffset={reduced ? 0 : LENGTH}
         fill="none"
         stroke="var(--accent)"
         strokeWidth={1.5}

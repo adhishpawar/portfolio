@@ -35,6 +35,11 @@ vi.mock("gsap/ScrollTrigger", () => {
   return { ScrollTrigger: { name: "ScrollTrigger" } };
 });
 
+const engage = async () => {
+  window.dispatchEvent(new Event("scroll"));
+  await vi.advanceTimersByTimeAsync(0);
+};
+
 beforeEach(() => {
   vi.useFakeTimers();
   vi.clearAllMocks();
@@ -46,7 +51,7 @@ describe("OrbitLine", () => {
   it("is fully drawn and never loads GSAP under reduced motion", async () => {
     mockMatchMedia(true);
     const { container } = render(<OrbitLine chapterIds={IDS} />);
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(container.querySelector("path")).toHaveAttribute("stroke-dashoffset", "0");
     expect(loads.gsap).toBe(0);
     expect(loads.scrollTrigger).toBe(0);
@@ -65,7 +70,7 @@ describe("OrbitLine", () => {
     mockMatchMedia(false);
     render(<OrbitLine chapterIds={IDS} weights={{ "ch-01": 2 }} />);
     expect(gsap.timeline).not.toHaveBeenCalled();
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(gsap.registerPlugin).toHaveBeenCalledWith({ name: "ScrollTrigger" });
     expect(gsap.timeline).toHaveBeenCalledTimes(1);
     const config = gsap.timeline.mock.calls[0][0];
@@ -76,10 +81,22 @@ describe("OrbitLine", () => {
     expect(timeline.to.mock.calls.at(-1)![1]).toMatchObject({ strokeDashoffset: 0 });
   });
 
+  it("works in path-length units of 1000 so GSAP's pixel rounding cannot flatten the animation", async () => {
+    mockMatchMedia(false);
+    const { container } = render(<OrbitLine chapterIds={IDS} />);
+    const path = container.querySelector("path")!;
+    expect(path).toHaveAttribute("pathLength", "1000");
+    expect(path).toHaveAttribute("stroke-dasharray", "1000");
+    expect(path).toHaveAttribute("stroke-dashoffset", "1000");
+    await engage();
+    // three equal chapters: the first tween ends two thirds undrawn
+    expect(timeline.to.mock.calls[0][1].strokeDashoffset).toBeCloseTo((2 / 3) * 1000, 3);
+  });
+
   it("kills the timeline and its ScrollTrigger on unmount", async () => {
     mockMatchMedia(false);
     const view = render(<OrbitLine chapterIds={IDS} />);
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     view.unmount();
     expect(timeline.scrollTrigger.kill).toHaveBeenCalled();
     expect(timeline.kill).toHaveBeenCalled();
@@ -89,7 +106,7 @@ describe("OrbitLine", () => {
     mockMatchMedia(false);
     const view = render(<OrbitLine chapterIds={IDS} />);
     view.unmount();
-    await vi.advanceTimersByTimeAsync(5000);
+    await engage();
     expect(gsap.timeline).not.toHaveBeenCalled();
   });
 });
