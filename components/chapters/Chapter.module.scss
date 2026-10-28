@@ -144,3 +144,12 @@
 .slot {
   min-height: 12rem;
 }
+
+.flagshipVisual {
+  position: relative;
+}
+
+.flagshipVisual > [data-slot] {
+  position: relative;
+  z-index: 1;
+}

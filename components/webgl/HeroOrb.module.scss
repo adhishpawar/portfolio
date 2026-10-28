@@ -1,0 +1,22 @@
+.orb {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.8s ease;
+}
+
+// Once the live canvas is drawing, fade the static image out so the two dot
+// patterns never overlap.
+.orb:has(canvas[data-ready]) .static {
+  opacity: 0;
+}

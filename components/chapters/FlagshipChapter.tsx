@@ -1,5 +1,6 @@
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
+import { FifthSenseGlow } from "@/components/webgl/FifthSenseGlow";
 import { Body } from "./Body";
 import styles from "./Chapter.module.scss";
 import { chapterNumber, titleId, type ChapterProps } from "./types";
@@ -12,7 +13,12 @@ export function FlagshipChapter({ chapter }: ChapterProps) {
       level={2}
       title={chapter.title}
       eyebrow={<Label index={chapterNumber(chapter)}>{chapter.label}</Label>}
-      aside={<div data-slot="pipeline" className={styles.slot} />}
+      aside={
+        <div className={styles.flagshipVisual}>
+          <FifthSenseGlow />
+          <div data-slot="pipeline" className={styles.slot} />
+        </div>
+      }
     >
       <Body paragraphs={chapter.body} />
       {chapter.quote ? (

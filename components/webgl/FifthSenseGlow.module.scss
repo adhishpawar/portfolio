@@ -1,0 +1,17 @@
+.glow {
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(47, 91, 255, 0.28) 0%,
+    rgba(19, 38, 68, 0.55) 38%,
+    rgba(19, 38, 68, 0) 70%
+  );
+}

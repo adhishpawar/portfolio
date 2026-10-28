@@ -1,5 +1,6 @@
 import { Boot } from "@/components/motion/Boot";
 import { ConnectButton } from "@/components/ui/ConnectButton";
+import { HeroOrb } from "@/components/webgl/HeroOrb";
 import { bootLines } from "@/lib/boot";
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
@@ -15,7 +16,7 @@ export function BootChapter({ chapter, profile }: ChapterProps) {
       level={1}
       title={chapter.title}
       eyebrow={<Label index={chapterNumber(chapter)}>{chapter.label}</Label>}
-      aside={<div data-slot="orb" className={styles.slot} />}
+      aside={<HeroOrb />}
     >
       <Boot lines={bootLines(profile, chapter)} />
       <Body paragraphs={chapter.body} />

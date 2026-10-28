@@ -20,8 +20,9 @@ body {
   font-family: var(--font-display), system-ui, sans-serif;
   font-size: var(--fs-body);
   line-height: 1.5;
-  padding-left: max(1rem, env(safe-area-inset-left, 0px));
-  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  // at least 1rem, wider on large screens, and clear of any phone side bars
+  padding-left: max(clamp(1rem, 5vw, 4.5rem), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(1rem, 5vw, 4.5rem), env(safe-area-inset-right, 0px));
   overflow-x: hidden;
 }
 
