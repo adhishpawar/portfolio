@@ -1,5 +1,6 @@
 import type { Content } from "@/content/schema";
 import { ChapterRenderer } from "./chapters/ChapterRenderer";
+import { OrbitLine } from "./motion/OrbitLine";
 import { SiteFooter } from "./ui/SiteFooter";
 import { SiteHeader, type NavItem } from "./ui/SiteHeader";
 
@@ -20,8 +21,14 @@ export function PortfolioPage({ content }: { content: Content }) {
       : [],
   );
 
+  // The flagship chapter gets double room on the orbit line so the line slows there.
+  const orbitWeights = Object.fromEntries(
+    chapters.filter((c) => c.kind === "flagship").map((c) => [c.id, 2]),
+  );
+
   return (
     <>
+      <OrbitLine chapterIds={chapters.map((c) => c.id)} weights={orbitWeights} />
       <SiteHeader name={profile.name} items={navItems} />
       <main id="main" tabIndex={-1}>
         {chapters.map((chapter) => (
