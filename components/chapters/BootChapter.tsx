@@ -1,11 +1,13 @@
+import { Boot } from "@/components/motion/Boot";
 import { Button } from "@/components/ui/Button";
+import { bootLines } from "@/lib/boot";
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
 import { Body } from "./Body";
 import styles from "./Chapter.module.scss";
 import { chapterNumber, titleId, type ChapterProps } from "./types";
 
-export function BootChapter({ chapter }: ChapterProps) {
+export function BootChapter({ chapter, profile }: ChapterProps) {
   return (
     <SectionShell
       id={chapter.id}
@@ -15,6 +17,7 @@ export function BootChapter({ chapter }: ChapterProps) {
       eyebrow={<Label index={chapterNumber(chapter)}>{chapter.label}</Label>}
       aside={<div data-slot="orb" className={styles.slot} />}
     >
+      <Boot lines={bootLines(profile, chapter)} />
       <Body paragraphs={chapter.body} />
       <div className={styles.actions}>
         <Button href="#ch-07">Let&apos;s connect</Button>

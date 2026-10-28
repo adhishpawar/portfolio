@@ -1,0 +1,53 @@
+"use client";
+
+import { useCallback, useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { BOOT_MS, hasSeenBoot, markBootSeen, shouldPlayBoot } from "@/lib/boot";
+import styles from "./Boot.module.scss";
+import { useReducedMotion } from "./useReducedMotion";
+
+// false while rendering on the server and during hydration, true afterwards, so
+// the overlay never appears in the server HTML and never causes a mismatch.
+const noopSubscribe = () => () => {};
+const useHydrated = () => useSyncExternalStore(noopSubscribe, () => true, () => false);
+
+// A short intro overlay. Content and LCP never wait for it, and it removes
+// itself on any key press.
+export function Boot({ lines }: { lines: string[] }) {
+  const reduced = useReducedMotion();
+  const hydrated = useHydrated();
+  const [dismissed, setDismissed] = useState(false);
+
+  const playing = hydrated && !dismissed && shouldPlayBoot({ reduced, seen: hasSeenBoot() });
+
+  const dismiss = useCallback(() => {
+    markBootSeen();
+    setDismissed(true);
+  }, []);
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = setTimeout(dismiss, BOOT_MS);
+    document.addEventListener("keydown", dismiss);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("keydown", dismiss);
+    };
+  }, [playing, dismiss]);
+
+  if (!playing) return null;
+
+  return (
+    <div data-boot className={styles.overlay} style={{ "--boot-ms": `${BOOT_MS}ms` } as CSSProperties}>
+      <div aria-hidden="true" className={styles.lines}>
+        {lines.map((line, i) => (
+          <p key={i} className={styles.line} style={{ animationDelay: `${i * 0.4}s` }}>
+            {line}
+          </p>
+        ))}
+      </div>
+      <button type="button" className={styles.skip} onClick={dismiss}>
+        Skip intro
+      </button>
+    </div>
+  );
+}

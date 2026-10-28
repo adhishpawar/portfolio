@@ -4,7 +4,15 @@ import { buildPersonJsonLd } from "@/lib/jsonld";
 
 describe("buildPersonJsonLd", () => {
   const content = loadContent();
-  const ld = buildPersonJsonLd(content, "https://adhish.example") as Record<string, any>;
+  const ld = buildPersonJsonLd(content, "https://adhish.example") as {
+    "@context": string;
+    "@type": string;
+    name: string;
+    url: string;
+    jobTitle: string;
+    worksFor: Record<string, string>;
+    sameAs: string[];
+  };
 
   it("describes a Person with the current job title and employer", () => {
     expect(ld["@context"]).toBe("https://schema.org");

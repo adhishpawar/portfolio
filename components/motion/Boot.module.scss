@@ -1,0 +1,49 @@
+@use "../../styles/type" as t;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: var(--void);
+  animation: leave 400ms ease calc(var(--boot-ms) - 400ms) forwards;
+}
+
+.lines {
+  @include t.mono-label;
+  color: var(--dim);
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+.line {
+  margin: 0 0 var(--space-2);
+  opacity: 0;
+  animation: appear 300ms ease forwards;
+}
+
+.skip {
+  @include t.mono-label;
+  justify-self: start;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--accent-text);
+  border: 1px solid currentColor;
+  cursor: pointer;
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes leave {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
