@@ -1,0 +1,16 @@
+@use "../../styles/type" as t;
+
+.footer {
+  @include t.mono-label;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--faint);
+}
+
+.footer a {
+  color: var(--dim);
+}

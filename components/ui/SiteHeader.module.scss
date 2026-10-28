@@ -1,0 +1,53 @@
+@use "../../styles/type" as t;
+
+.header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+}
+
+.name {
+  @include t.mono-label;
+  color: var(--signal);
+}
+
+.nav {
+  @include t.mono-label;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  color: var(--dim);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--signal);
+}
+
+.skip {
+  position: absolute;
+  left: var(--space-3);
+  top: -4rem;
+  z-index: 10;
+  padding: var(--space-2) var(--space-3);
+  background: var(--signal);
+  color: var(--void);
+  font-weight: 500;
+}
+
+.skip:focus {
+  top: var(--space-3);
+}
