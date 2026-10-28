@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import type { ZodType } from "zod";
 import {
   ChapterSchema,
@@ -9,6 +7,11 @@ import {
   SkillsSchema,
   type Content,
 } from "@/content/schema";
+import profileJson from "@/content/profile.json";
+import chaptersJson from "@/content/chapters.json";
+import projectsJson from "@/content/projects.json";
+import skillsJson from "@/content/skills.json";
+import explorerJson from "@/content/explorer.json";
 
 export class ContentError extends Error {
   constructor(
@@ -34,14 +37,13 @@ const FILES: Record<keyof RawContent, string> = {
   explorer: "explorer.json",
 };
 
-export function loadRawContent(dir = path.join(process.cwd(), "content")): RawContent {
-  const read = (file: string) => JSON.parse(readFileSync(path.join(dir, file), "utf8"));
+export function loadRawContent(): RawContent {
   return {
-    profile: read(FILES.profile),
-    chapters: read(FILES.chapters),
-    projects: read(FILES.projects),
-    skills: read(FILES.skills),
-    explorer: read(FILES.explorer),
+    profile: profileJson,
+    chapters: chaptersJson,
+    projects: projectsJson,
+    skills: skillsJson,
+    explorer: explorerJson,
   };
 }
 

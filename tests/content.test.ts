@@ -91,7 +91,7 @@ describe("parseContent errors", () => {
   it("names the file when a chapter references an unknown project", () => {
     const raw = structuredClone(loadRawContent());
     (raw.chapters as Record<string, unknown>[])[2].projectIds = ["does-not-exist"];
-    expect(() => parseContent(raw)).toThrowError(/chapters\.json.*does-not-exist/s);
+    expect(() => parseContent(raw)).toThrowError(/chapters\.json[\s\S]*does-not-exist/);
   });
 
   it("accepts a 300-character title with no spaces", () => {
