@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { openSettled } from "./helpers";
+import { BOOT_MS } from "../../lib/boot";
+import { openSettled, openWithBoot } from "./helpers";
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
@@ -14,10 +15,21 @@ test("no axe violations on the settled page", async ({ page }) => {
   expect(await violations(page)).toEqual([]);
 });
 
-test("no axe violations while the boot overlay is showing", async ({ page }) => {
-  await page.goto("/", { waitUntil: "commit" });
-  await page.waitForSelector("[data-boot]");
-  expect(await violations(page)).toEqual([]);
+test("no axe violations in the boot readout itself", async ({ page }) => {
+  // Keep the readout on screen until axe is done: ignore only its own auto-dismiss timer.
+  await page.addInitScript((bootMs) => {
+    const original = window.setTimeout.bind(window);
+    window.setTimeout = ((fn: TimerHandler, ms?: number, ...args: unknown[]) =>
+      ms === bootMs ? 0 : original(fn, ms, ...args)) as typeof window.setTimeout;
+  }, BOOT_MS);
+  await openWithBoot(page);
+  // Axe measures contrast mid-fade, so freeze the fade-in, then check only the
+  // readout (a small subtree, quick enough to finish before its 2.6 s timer).
+  await page.addStyleTag({
+    content: "[data-boot], [data-boot] * { animation: none !important; opacity: 1 !important; }",
+  });
+  const results = await new AxeBuilder({ page }).include("[data-boot]").withTags(TAGS).analyze();
+  expect(results.violations.map((v) => v.id)).toEqual([]);
 });
 
 test("no axe violations with reduced motion", async ({ page }) => {

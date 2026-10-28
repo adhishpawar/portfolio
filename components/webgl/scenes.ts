@@ -44,6 +44,13 @@ export function mountScene(kind: SceneKind, canvas: HTMLCanvasElement): SceneHan
   scene.add(new Mesh(geometry, material));
   const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
+  // Three.js logs a shader compile or link error but does not throw, which would
+  // leave a blank canvas fading in over the static image. Catch it ourselves.
+  let shaderFailed = false;
+  renderer.debug.onShaderError = () => {
+    shaderFailed = true;
+  };
+
   const resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
     renderer.setPixelRatio(ratio);
@@ -84,20 +91,24 @@ export function mountScene(kind: SceneKind, canvas: HTMLCanvasElement): SceneHan
   resizeObserver.observe(canvas);
   document.addEventListener("visibilitychange", update);
 
-  resize();
+  const dispose = () => {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+    observer.disconnect();
+    resizeObserver.disconnect();
+    document.removeEventListener("visibilitychange", update);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+    renderer.forceContextLoss();
+  };
+
+  resize(); // the first render compiles the shaders
+  if (shaderFailed) {
+    dispose();
+    throw new Error("WebGL shader failed to compile");
+  }
   update();
 
-  return {
-    dispose() {
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
-      observer.disconnect();
-      resizeObserver.disconnect();
-      document.removeEventListener("visibilitychange", update);
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      renderer.forceContextLoss();
-    },
-  };
+  return { dispose };
 }

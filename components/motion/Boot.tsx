@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type CSSProperties } from "react";
-import { BOOT_MS, hasSeenBoot, markBootSeen, shouldPlayBoot } from "@/lib/boot";
+import { BOOT_MS, hasSeenBoot, isPristineLoad, markBootSeen, shouldPlayBoot } from "@/lib/boot";
 import styles from "./Boot.module.scss";
 import { useHydrated } from "./useHydrated";
 import { useReducedMotion } from "./useReducedMotion";
@@ -12,8 +12,10 @@ export function Boot({ lines }: { lines: string[] }) {
   const reduced = useReducedMotion();
   const hydrated = useHydrated();
   const [dismissed, setDismissed] = useState(false);
+  // Decided once, at hydration: later scrolling must not make the readout vanish or appear.
+  const [pristine] = useState(isPristineLoad);
 
-  const playing = hydrated && !dismissed && shouldPlayBoot({ reduced, seen: hasSeenBoot() });
+  const playing = hydrated && !dismissed && shouldPlayBoot({ reduced, seen: hasSeenBoot(), pristine });
 
   const dismiss = useCallback(() => {
     markBootSeen();

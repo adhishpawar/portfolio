@@ -40,7 +40,7 @@
     "label": "Into production",
     "title": "Into *production.*",
     "body": [
-      "At CoReCo Technologies I build services that real clients use. My work on POCs and a pilot helped the company retain a client and win the purchase order."
+      "At CoReCo Technologies I build services that real clients use. I took part in the POCs and a pilot that helped the company retain a client and win the purchase order."
     ],
     "stations": [
       {
@@ -63,11 +63,13 @@
     "title": "Teaching a system to *understand* people.",
     "body": [
       "I designed the machine-learning pipeline that predicts gestures in real time, and I'm architecting the backend the whole platform runs on.",
-      "First pilot: Royal Orchid Hotels, Bangalore."
+      "First pilot: Royal Orchid Hotels, Bangalore.",
+      "I have presented our work on stage at the Walchand College of Engineering Alumni Business Meet in Pune and at AI Demo Day."
     ],
     "quote": {
       "text": "That's the only metric that really counts.",
-      "attribution": "Adhish Pawar, on the pilot"
+      "attribution": "Adhish Pawar, on the pilot",
+      "source": "Adhish Pawar's LinkedIn post about the Royal Orchid pilot"
     },
     "projectIds": ["fifthsense"]
   },

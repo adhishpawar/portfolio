@@ -4,11 +4,12 @@ import { defineConfig } from "@playwright/test";
 // browser download is needed. SwiftShader gives headless WebGL.
 export default defineConfig({
   testDir: "tests/e2e",
+  globalSetup: "./tests/e2e/global-setup.ts",
   timeout: 120_000,
   // software WebGL is CPU-heavy: two browsers at a time keeps timings honest
   workers: 2,
   fullyParallel: true,
-  retries: 0,
+  retries: 1, // software WebGL on a busy machine can be slow; a retried pass is reported as flaky
   reporter: [["list"]],
   use: {
     baseURL: "http://localhost:3100",

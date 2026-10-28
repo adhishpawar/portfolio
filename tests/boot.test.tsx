@@ -2,7 +2,14 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockMatchMedia } from "./helpers/matchMedia";
 import { Boot } from "@/components/motion/Boot";
-import { BOOT_MS, BOOT_STORAGE_KEY, bootLines, shouldPlayBoot } from "@/lib/boot";
+import {
+  BOOT_MAX_HYDRATION_MS,
+  BOOT_MS,
+  BOOT_STORAGE_KEY,
+  bootLines,
+  isPristineLoad,
+  shouldPlayBoot,
+} from "@/lib/boot";
 import { loadContent } from "@/lib/content";
 
 const LINES = ["> initialising orbit", "> chapter 00 loaded"];
@@ -19,16 +26,43 @@ afterEach(() => {
 
 describe("shouldPlayBoot", () => {
   it.each([
-    [{ reduced: false, seen: false }, true],
-    [{ reduced: true, seen: false }, false],
-    [{ reduced: false, seen: true }, false],
-    [{ reduced: true, seen: true }, false],
+    [{ reduced: false, seen: false, pristine: true }, true],
+    [{ reduced: true, seen: false, pristine: true }, false],
+    [{ reduced: false, seen: true, pristine: true }, false],
+    [{ reduced: false, seen: false, pristine: false }, false],
+    [{ reduced: true, seen: true, pristine: false }, false],
   ])("%j -> %s", (input, expected) => {
     expect(shouldPlayBoot(input)).toBe(expected);
   });
 
   it("keeps the whole sequence at or under three seconds", () => {
     expect(BOOT_MS).toBeLessThanOrEqual(3000);
+  });
+});
+
+describe("isPristineLoad", () => {
+  afterEach(() => {
+    Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
+    window.location.hash = "";
+  });
+
+  it("is true at the top of the page, with no anchor, early in the load", () => {
+    expect(isPristineLoad()).toBe(true);
+  });
+
+  it("is false once the visitor has scrolled", () => {
+    Object.defineProperty(window, "scrollY", { value: 400, configurable: true });
+    expect(isPristineLoad()).toBe(false);
+  });
+
+  it("is false when the visitor arrived on a deep link", () => {
+    window.location.hash = "#ch-07";
+    expect(isPristineLoad()).toBe(false);
+  });
+
+  it("is false when hydration landed late, as on a slow phone connection", () => {
+    vi.advanceTimersByTime(BOOT_MAX_HYDRATION_MS + 1);
+    expect(isPristineLoad()).toBe(false);
   });
 });
 
@@ -71,6 +105,14 @@ describe("Boot overlay", () => {
     const { container, getByRole } = render(<Boot lines={LINES} />);
     fireEvent.click(getByRole("button", { name: "Skip intro" }));
     expect(container.querySelector("[data-boot]")).toBeNull();
+  });
+
+  it("does not pop up over content the visitor is already reading (late hydration, scrolled, or deep link)", () => {
+    mockMatchMedia(false);
+    vi.advanceTimersByTime(BOOT_MAX_HYDRATION_MS + 1);
+    const late = render(<Boot lines={LINES} />);
+    expect(late.container.querySelector("[data-boot]")).toBeNull();
+    late.unmount();
   });
 
   it("does not play again in the same session", () => {

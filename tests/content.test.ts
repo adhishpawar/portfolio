@@ -100,3 +100,49 @@ describe("parseContent errors", () => {
     expect(parseContent(raw).chapters[1].title).toHaveLength(300);
   });
 });
+
+describe("strict content schemas (a typo must fail the build, not silently drop content)", () => {
+  type Mutator = (raw: ReturnType<typeof loadRawContent>) => void;
+  const cases: [string, string, string, Mutator][] = [
+    ["profile.json", "profile", "extraField", (r) => ((r.profile as Record<string, unknown>).extraField = 1)],
+    ["chapters.json", "chapters", "qoute", (r) => ((r.chapters as Record<string, unknown>[])[4].qoute = { text: "x" })],
+    ["chapters.json", "chapters", "projectIDs", (r) => ((r.chapters as Record<string, unknown>[])[2].projectIDs = ["upi"])],
+    ["projects.json", "projects", "sorce", (r) => ((r.projects as Record<string, unknown>[])[0].sorce = "x")],
+    ["projects.json", "projects", "nodez", (r) => ((r.projects as { diagram: Record<string, unknown> }[])[0].diagram.nodez = [])],
+    ["skills.json", "skills", "extra", (r) => ((r.skills as { groups: Record<string, unknown>[] }).groups[0].extra = 1)],
+    ["explorer.json", "explorer", "alt2", (r) => ((r.explorer as { frames: Record<string, unknown>[] }).frames[0].alt2 = "x")],
+  ];
+
+  it.each(cases)("%s rejects the unknown key %s", (file, _name, key, mutate) => {
+    const raw = structuredClone(loadRawContent());
+    mutate(raw);
+    try {
+      parseContent(raw);
+      throw new Error("expected ContentError");
+    } catch (e) {
+      expect(e).toBeInstanceOf(ContentError);
+      expect((e as ContentError).file).toBe(file);
+      expect((e as ContentError).message).toContain(key);
+    }
+  });
+});
+
+describe("claims are traceable and worded as LinkedIn words them", () => {
+  const { chapters } = loadContent();
+
+  it("records the source of the FifthSense quote", () => {
+    expect(chapters[4].quote?.source).toContain("LinkedIn");
+  });
+
+  it('says Adhish "took part in" the POCs and pilot, not that the work was his alone', () => {
+    const production = chapters[3].body.join(" ");
+    expect(production).toContain("took part in");
+    expect(production).not.toContain("My work on POCs");
+  });
+
+  it("mentions the two talks the spec lists for the FifthSense chapter", () => {
+    const flagship = chapters[4].body.join(" ");
+    expect(flagship).toContain("Alumni Business Meet");
+    expect(flagship).toContain("AI Demo Day");
+  });
+});
