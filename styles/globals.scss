@@ -1,0 +1,40 @@
+@use "tokens";
+@use "utilities";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--void);
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--signal);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
