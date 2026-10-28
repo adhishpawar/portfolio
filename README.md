@@ -48,9 +48,10 @@ without a `src` show an illustrated placeholder.
 ## Deploy to Vercel
 
 1. Import the repository in Vercel. The framework preset is **Next.js**.
-2. Add an environment variable `NEXT_PUBLIC_SITE_URL` for **Production**, for example
-   `https://your-domain.com` (see `.env.example`).
-3. Deploy. `llms.txt`, `sitemap.xml`, `robots.txt` and the social preview image are generated
+2. Deploy. With no setup the site uses the address Vercel gives the project (for example
+   `https://portfolio-xxxx.vercel.app`) for its canonical link, sitemap and `llms.txt`.
+3. When you add a custom domain, set `NEXT_PUBLIC_SITE_URL` for **Production** to it, for example
+   `https://your-domain.com` (see `.env.example`), and redeploy. `llms.txt`, `sitemap.xml`, `robots.txt` and the social preview image are generated
    from the same content, so there is nothing else to configure.
 
 ## Quality checks
