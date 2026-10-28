@@ -1,0 +1,6 @@
+@use "../../styles/type" as t;
+
+.em {
+  @include t.emphasis;
+  font-size: 1.1em;
+}

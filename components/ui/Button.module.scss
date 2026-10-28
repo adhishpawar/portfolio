@@ -1,0 +1,14 @@
+.button {
+  display: inline-block;
+  padding: 1.1rem 2.1rem;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.25rem;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.button:hover {
+  filter: brightness(1.1);
+}

@@ -1,0 +1,12 @@
+@use "../../styles/type" as t;
+
+.label {
+  @include t.mono-label;
+  margin: 0;
+  color: var(--dim);
+}
+
+.index {
+  color: var(--accent-text);
+  margin-right: var(--space-2);
+}

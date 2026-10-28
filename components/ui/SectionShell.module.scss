@@ -1,0 +1,18 @@
+@use "../../styles/type" as t;
+
+.section {
+  position: relative;
+  padding-block: var(--space-7);
+  min-width: 0;
+}
+
+.heading {
+  @include t.display;
+  overflow-wrap: anywhere;
+  font-size: var(--fs-h2);
+  margin: var(--space-4) 0 var(--space-5);
+}
+
+.h1 {
+  font-size: var(--fs-h1);
+}

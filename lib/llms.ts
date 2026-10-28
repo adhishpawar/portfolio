@@ -1,6 +1,10 @@
 import type { Content } from "@/content/schema";
+import { parseEmphasis } from "@/lib/emphasis";
 
-const plain = (text: string) => text.replace(/\*([^*]+)\*/g, "$1");
+const plain = (text: string) =>
+  parseEmphasis(text)
+    .map((segment) => segment.text)
+    .join("");
 
 export function buildLlmsTxt(content: Content, siteUrl: string): string {
   const { profile, chapters, projects, skills } = content;
