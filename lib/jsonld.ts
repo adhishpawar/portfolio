@@ -14,3 +14,12 @@ export function buildPersonJsonLd(content: Content, siteUrl: string): Record<str
     sameAs: [profile.links.linkedin, profile.links.github],
   };
 }
+
+const BACKSLASH = String.fromCharCode(92);
+
+// JSON for an inline <script type="application/ld+json">. Every "<" becomes the
+// escape backslash-u003c, which JSON.parse reads back as "<" but which can never
+// close the script tag.
+export function serializeJsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, `${BACKSLASH}u003c`);
+}

@@ -1,0 +1,59 @@
+@use "../../styles/type" as t;
+
+.nav {
+  @include t.mono-label;
+  position: relative;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-block;
+  color: var(--dim);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--signal);
+}
+
+.toggle {
+  @include t.mono-label;
+  display: none;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--signal);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+// The collapse only applies after hydration, so without JavaScript the links
+// are always visible.
+@media (max-width: 40rem) {
+  .nav[data-enhanced] .toggle {
+    display: inline-block;
+  }
+
+  .nav[data-enhanced] .list {
+    display: none;
+  }
+
+  .nav[data-enhanced][data-open] .list {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--space-2));
+    min-width: 12rem;
+    padding: var(--space-3);
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}

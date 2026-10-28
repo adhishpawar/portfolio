@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { ConnectButton } from "@/components/ui/ConnectButton";
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
 import { Body } from "./Body";
@@ -16,7 +16,7 @@ export function ConnectChapter({ chapter, profile }: ChapterProps) {
     >
       <Body paragraphs={chapter.body} />
       <div className={styles.actions}>
-        <Button href={profile.links.linkedin}>Let&apos;s connect</Button>
+        <ConnectButton href={profile.links.linkedin}>Let&apos;s connect</ConnectButton>
       </div>
       <ul className={styles.links}>
         <li>

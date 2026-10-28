@@ -1,14 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import { BOOT_MS, hasSeenBoot, markBootSeen, shouldPlayBoot } from "@/lib/boot";
 import styles from "./Boot.module.scss";
+import { useHydrated } from "./useHydrated";
 import { useReducedMotion } from "./useReducedMotion";
-
-// false while rendering on the server and during hydration, true afterwards, so
-// the overlay never appears in the server HTML and never causes a mismatch.
-const noopSubscribe = () => () => {};
-const useHydrated = () => useSyncExternalStore(noopSubscribe, () => true, () => false);
 
 // A short intro overlay. Content and LCP never wait for it, and it removes
 // itself on any key press.

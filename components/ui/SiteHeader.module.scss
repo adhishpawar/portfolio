@@ -15,28 +15,6 @@
   color: var(--signal);
 }
 
-.nav {
-  @include t.mono-label;
-}
-
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.link {
-  color: var(--dim);
-  text-decoration: none;
-}
-
-.link:hover {
-  color: var(--signal);
-}
-
 .skip {
   position: absolute;
   left: var(--space-3);

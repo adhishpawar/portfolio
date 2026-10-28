@@ -1,5 +1,5 @@
 import { Boot } from "@/components/motion/Boot";
-import { Button } from "@/components/ui/Button";
+import { ConnectButton } from "@/components/ui/ConnectButton";
 import { bootLines } from "@/lib/boot";
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
@@ -20,7 +20,7 @@ export function BootChapter({ chapter, profile }: ChapterProps) {
       <Boot lines={bootLines(profile, chapter)} />
       <Body paragraphs={chapter.body} />
       <div className={styles.actions}>
-        <Button href="#ch-07">Let&apos;s connect</Button>
+        <ConnectButton href="#ch-07">Let&apos;s connect</ConnectButton>
       </div>
     </SectionShell>
   );
