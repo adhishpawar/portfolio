@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LenisProvider } from "@/components/motion/LenisProvider";
 import { loadContent } from "@/lib/content";
 import { fontDisplay, fontMono, fontSerif } from "@/lib/fonts";
 import { buildPersonJsonLd } from "@/lib/jsonld";
@@ -32,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fontDisplay.variable} ${fontSerif.variable} ${fontMono.variable}`}
     >
       <body>
-        {children}
+        <LenisProvider>{children}</LenisProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       </body>
     </html>
