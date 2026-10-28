@@ -3,15 +3,18 @@ import { vi } from "vitest";
 
 type Listener = (event: { matches: boolean }) => void;
 
-// Installs a controllable window.matchMedia. Only the reduced-motion query is
-// meaningful; every other query reports no match.
-export function mockMatchMedia(initiallyReduced: boolean) {
+// Installs a controllable window.matchMedia. The reduced-motion query follows
+// `initiallyReduced`, any min-width query follows `desktop`, everything else
+// reports no match.
+export function mockMatchMedia(initiallyReduced: boolean, desktop = false) {
   let reduced = initiallyReduced;
   const listeners = new Set<Listener>();
 
   window.matchMedia = vi.fn((query: string) => ({
     get matches() {
-      return query.includes("prefers-reduced-motion") ? reduced : false;
+      if (query.includes("prefers-reduced-motion")) return reduced;
+      if (query.includes("min-width")) return desktop;
+      return false;
     },
     media: query,
     addEventListener: (_: string, l: Listener) => listeners.add(l),

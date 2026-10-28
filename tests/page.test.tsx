@@ -43,6 +43,14 @@ describe("PortfolioPage server HTML (no JavaScript needed)", () => {
     expect(flagship?.textContent).toContain("First pilot: Royal Orchid Hotels, Bangalore.");
   });
 
+  it("renders the FifthSense pipeline from project data, with a text equivalent", () => {
+    const flagship = root.querySelector("#ch-04")!;
+    expect(flagship.querySelectorAll("[data-node]").length).toBe(4);
+    const items = [...flagship.querySelectorAll("ol.sr-only li")].map((li) => li.textContent);
+    expect(items[0]).toContain("Data");
+    expect(items[3]).toContain("Retrain");
+  });
+
   it("links the primary nav to chapter anchors", () => {
     const hrefs = [...root.querySelectorAll('nav[aria-label="Primary"] a')].map((a) =>
       a.getAttribute("href"),

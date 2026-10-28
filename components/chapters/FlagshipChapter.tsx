@@ -1,3 +1,6 @@
+import { HandLineArt } from "@/components/diagrams/HandLineArt";
+import { PipelineDiagram } from "@/components/diagrams/PipelineDiagram";
+import { FlagshipEffects } from "@/components/motion/FlagshipEffects";
 import { Label } from "@/components/ui/Label";
 import { SectionShell } from "@/components/ui/SectionShell";
 import { FifthSenseGlow } from "@/components/webgl/FifthSenseGlow";
@@ -5,7 +8,8 @@ import { Body } from "./Body";
 import styles from "./Chapter.module.scss";
 import { chapterNumber, titleId, type ChapterProps } from "./types";
 
-export function FlagshipChapter({ chapter }: ChapterProps) {
+export function FlagshipChapter({ chapter, projects }: ChapterProps) {
+  const project = projects.find((p) => p.diagram);
   return (
     <SectionShell
       id={chapter.id}
@@ -16,10 +20,16 @@ export function FlagshipChapter({ chapter }: ChapterProps) {
       aside={
         <div className={styles.flagshipVisual}>
           <FifthSenseGlow />
-          <div data-slot="pipeline" className={styles.slot} />
+          <div className={styles.flagshipArt}>
+            <HandLineArt />
+            {project?.diagram ? (
+              <PipelineDiagram nodes={project.diagram.nodes} title={`${project.title} pipeline`} />
+            ) : null}
+          </div>
         </div>
       }
     >
+      <FlagshipEffects targetId={chapter.id} />
       <Body paragraphs={chapter.body} />
       {chapter.quote ? (
         <blockquote className={styles.quote}>

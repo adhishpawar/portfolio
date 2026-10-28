@@ -1,0 +1,43 @@
+.diagram {
+  width: 100%;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.connector {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(47, 91, 255, 0.7));
+}
+
+.box {
+  fill: var(--surface);
+  stroke: rgba(244, 244, 244, 0.5);
+  stroke-width: 1;
+}
+
+.last .box {
+  stroke: var(--accent);
+}
+
+.label {
+  fill: var(--signal);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail {
+  fill: var(--dim);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
