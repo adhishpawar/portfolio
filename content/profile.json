@@ -1,0 +1,22 @@
+{
+  "name": "Adhish Pawar",
+  "headline": "Associate Software Engineer | Java & Python | Agentic AI & GenAI | Core ML, Experimentation & Production Pipelines | Building AI Products from Scratch to Scale",
+  "role": {
+    "title": "Associate Software Engineer",
+    "company": "CoReCo Technologies Private Limited",
+    "since": "2025-07"
+  },
+  "location": "Pune, India",
+  "aspirations": "I want to build IT solutions at scale, automate workflows, and build AI-based applications and products. Over time I want to move toward core ML: model development across ML, DL and AI. Outside of engineering I travel, move between places and keep learning new domains, because tech makes more sense when it sits next to life.",
+  "education": {
+    "school": "PES's Modern College of Engineering",
+    "degree": "Bachelor of Engineering, Computer Engineering",
+    "years": "2021 to 2025",
+    "cgpa": "9.38"
+  },
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/adhish-pawar-153241231/",
+    "github": "https://github.com/adhishpawar",
+    "email": "adhishpawar@gmail.com"
+  }
+}

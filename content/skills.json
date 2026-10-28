@@ -1,0 +1,17 @@
+{
+  "groups": [
+    { "name": "Languages", "items": ["Java", "Python", "C++"] },
+    {
+      "name": "Backend",
+      "items": ["Spring Boot", "Django REST Framework", "FastAPI", "Flask"]
+    },
+    {
+      "name": "AI and ML",
+      "items": ["TensorFlow", "PyTorch", "MLflow", "DVC", "MLOps", "RAG"]
+    },
+    {
+      "name": "Data and infrastructure",
+      "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Docker", "Git", "Linux"]
+    }
+  ]
+}

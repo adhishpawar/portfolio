@@ -1,0 +1,77 @@
+[
+  {
+    "id": "fifthsense",
+    "title": "FifthSense",
+    "role": "Machine Learning Engineer, Glovatrix",
+    "kind": "client",
+    "summary": "Real-time gesture recognition for deaf users. I designed the ML gesture-prediction pipeline, built an approach for continuous real-time prediction, and I'm architecting the platform backend.",
+    "stack": ["DVC", "MLflow", "Django REST Framework", "Flask", "MLOps CI/CD", "TensorFlow"],
+    "links": [],
+    "diagram": {
+      "nodes": [
+        { "id": "data", "label": "Data", "detail": "DVC, versioned" },
+        { "id": "experiments", "label": "Experiments", "detail": "MLflow, registry" },
+        { "id": "serving", "label": "Serving", "detail": "Django REST, Flask" },
+        { "id": "retrain", "label": "Retrain", "detail": "CI/CD, deploy" }
+      ]
+    },
+    "source": "LinkedIn experience (Glovatrix) and Adhish's LinkedIn post about the Royal Orchid pilot"
+  },
+  {
+    "id": "upi-replication",
+    "title": "UPI Replication System",
+    "role": "Personal project",
+    "kind": "personal",
+    "summary": "A payment system modelled on NPCI's UPI, built to reason about correctness. A payment saga with a state machine, a transactional outbox and idempotent ledger postings. A timed-out credit is resolved against the bank, never blindly retried.",
+    "stack": ["Java 21", "Spring Boot", "PostgreSQL 17", "Docker Compose"],
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/adhishpawar/UPI-REPLICATION-SYSTEM" }
+    ],
+    "source": "GitHub README: adhishpawar/UPI-REPLICATION-SYSTEM"
+  },
+  {
+    "id": "ride-hailing",
+    "title": "Ride-hailing demand and supply platform",
+    "role": "Personal project",
+    "kind": "personal",
+    "summary": "An operational ride platform of nine FastAPI services, plus a separate multi-tenant ML service that forecasts ride demand per zone and time window.",
+    "stack": ["Python 3.12", "FastAPI", "PostgreSQL", "Redis", "Kafka", "React"],
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/adhishpawar/Intelligent-Demand-Supply-Optimization-for-Ride-Hailing-Systems"
+      }
+    ],
+    "source": "GitHub README: Intelligent-Demand-Supply-Optimization-for-Ride-Hailing-Systems"
+  },
+  {
+    "id": "finsec-vault",
+    "title": "FinSec Vault",
+    "role": "Personal project",
+    "kind": "personal",
+    "summary": "A Spring Boot 3 banking backend with OTP registration, JWT authentication and role-based approvals for customers, tellers and managers, with risk flagging and audit trails.",
+    "stack": ["Java 17", "Spring Boot 3", "Spring Security", "JWT", "MySQL"],
+    "links": [{ "label": "GitHub", "href": "https://github.com/adhishpawar/FinSec-Vault" }],
+    "source": "GitHub README: adhishpawar/FinSec-Vault and LinkedIn projects"
+  },
+  {
+    "id": "fusionx",
+    "title": "FusionX",
+    "role": "Academic project",
+    "kind": "personal",
+    "summary": "A hybrid deep-learning model that detects deepfake images by combining CNNs for pixel-level features with Transformers for semantic context.",
+    "stack": ["PyTorch", "FastAPI"],
+    "links": [],
+    "source": "LinkedIn projects: FusionX, Deepfake Image Detection"
+  },
+  {
+    "id": "timesheetpa",
+    "title": "TimesheetPA",
+    "role": "Personal project",
+    "kind": "personal",
+    "summary": "A Microsoft Teams chatbot that logs timesheet entries from plain-language messages, using GPT-4o-mini to extract the date, project, task and hours.",
+    "stack": ["Python", "aiohttp", "asyncpg", "PostgreSQL", "Bot Framework", "GPT-4o-mini"],
+    "links": [{ "label": "GitHub", "href": "https://github.com/adhishpawar/TimesheetPA" }],
+    "source": "GitHub README: adhishpawar/TimesheetPA"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "frames": [
+    {
+      "id": "home-base",
+      "caption": "Pune, India",
+      "alt": "Illustrated frame marking Pune, where Adhish is based"
+    },
+    {
+      "id": "between-places",
+      "caption": "Between places",
+      "alt": "Illustrated frame for travel and moving between places"
+    },
+    {
+      "id": "new-domains",
+      "caption": "New domains",
+      "alt": "Illustrated frame for learning new domains"
+    }
+  ]
+}

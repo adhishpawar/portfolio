@@ -4,7 +4,7 @@ import path from "node:path";
 
 export default defineConfig({
   plugins: [react()],
-  resolve: { alias: { "@": path.resolve(__dirname) } },
+  resolve: { alias: { "@": path.resolve(import.meta.dirname) } },
   test: {
     environment: "jsdom",
     include: ["tests/**/*.test.{ts,tsx}"],

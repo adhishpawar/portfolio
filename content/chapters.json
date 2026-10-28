@@ -1,0 +1,103 @@
+[
+  {
+    "id": "ch-00",
+    "index": 0,
+    "kind": "boot",
+    "label": "Boot / Pune, India",
+    "title": "Building AI products from *scratch to scale.*",
+    "body": [
+      "Associate Software Engineer working across Java, Python, agentic AI and core ML, building pipelines that go from experiment to production."
+    ]
+  },
+  {
+    "id": "ch-01",
+    "index": 1,
+    "kind": "origin",
+    "label": "Origin",
+    "title": "Where it *started.*",
+    "body": [
+      "I earned a B.E. in Computer Engineering at PES's Modern College of Engineering in Pune, from 2021 to 2025, with a 9.38 CGPA.",
+      "Alongside the degree I worked on deepfake detection: a research internship building a distributed detector on Hadoop and Spark, and FusionX, a hybrid CNN and Transformer model."
+    ],
+    "projectIds": ["fusionx"]
+  },
+  {
+    "id": "ch-02",
+    "index": 2,
+    "kind": "foundations",
+    "label": "Foundations",
+    "title": "Learning on systems where *correctness* matters.",
+    "body": [
+      "I learned backend engineering by building payment-style systems as personal projects.",
+      "A UPI replication with a payment saga, a transactional outbox and idempotent postings. And FinSec Vault, a Spring Boot 3 banking backend with role-based approvals."
+    ],
+    "projectIds": ["upi-replication", "finsec-vault"]
+  },
+  {
+    "id": "ch-03",
+    "index": 3,
+    "kind": "production",
+    "label": "Into production",
+    "title": "Into *production.*",
+    "body": [
+      "At CoReCo Technologies I build services that real clients use. My work on POCs and a pilot helped the company retain a client and win the purchase order."
+    ],
+    "stations": [
+      {
+        "tag": "Backend",
+        "caption": "Django REST Framework, PostgreSQL and Redis for client products"
+      },
+      {
+        "tag": "GenAI",
+        "caption": "Speech-to-text, text-to-speech and RAG systems served as FastAPI microservices"
+      },
+      { "tag": "Pilot", "caption": "POCs and a pilot that helped win the PO" },
+      { "tag": "Award", "caption": "Propel Excellence Award, after about ten months" }
+    ]
+  },
+  {
+    "id": "ch-04",
+    "index": 4,
+    "kind": "flagship",
+    "label": "FifthSense / Glovatrix",
+    "title": "Teaching a system to *understand* people.",
+    "body": [
+      "I designed the machine-learning pipeline that predicts gestures in real time, and I'm architecting the backend the whole platform runs on.",
+      "First pilot: Royal Orchid Hotels, Bangalore."
+    ],
+    "quote": {
+      "text": "That's the only metric that really counts.",
+      "attribution": "Adhish Pawar, on the pilot"
+    },
+    "projectIds": ["fifthsense"]
+  },
+  {
+    "id": "ch-05",
+    "index": 5,
+    "kind": "next",
+    "label": "Next orbit",
+    "title": "The *next* orbit.",
+    "body": [
+      "I want to build IT solutions at scale, automate workflows, and build AI-based applications and products.",
+      "Over time I want to move toward core ML: model development across ML, DL and AI."
+    ]
+  },
+  {
+    "id": "ch-06",
+    "index": 6,
+    "kind": "explorer",
+    "label": "Explorer / after hours",
+    "title": "Beyond *the terminal.*",
+    "body": [
+      "Between builds I travel, move between places, and learn whatever domain is next. Tech makes more sense when life is in the same frame."
+    ]
+  },
+  {
+    "id": "ch-07",
+    "index": 7,
+    "kind": "connect",
+    "label": "Connect",
+    "title": "If you're building something that *matters*, let's talk.",
+    "body": ["Say hello on LinkedIn, or find my work on GitHub."]
+  }
+]
